@@ -76,7 +76,24 @@ class MainActivity : AppCompatActivity() {
     }
     fun btPesquisarOnClick(view: View) {
 
+        val cursor = banco.query(
+            "cadastro",
+            null,
+            "_id = " + etCod.text.toString(),
+            null,
+            null,
+            null,
+            null
+        )
+
+        if (cursor.moveToNext()) {
+            etNome.setText(cursor.getString(1) )
+            etTelefone.setText(cursor.getString(2) )
+        } else {
+            Toast.makeText(this, "Registro não encontrado", Toast.LENGTH_SHORT).show()
+        }
     }
+
     fun btListarOnClick(view: View) {
 
     }
