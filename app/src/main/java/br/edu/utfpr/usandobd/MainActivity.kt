@@ -95,6 +95,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun btListarOnClick(view: View) {
+        val saida = StringBuilder()
+
+        val cursor = banco.query(
+            "cadastro",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        )
+
+        while( cursor.moveToNext()) {
+            saida.append(etNome.setText(cursor.getString(1) ) + "\n")
+        }
+
+        Toast.makeText(this, saida.toString(), Toast.LENGTH_SHORT).show()
 
     }
 
