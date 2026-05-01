@@ -71,6 +71,8 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun btExcluirOnClick(view: View) {
+        banco.delete( "cadastro", "_id = " + etCod.text.toString(), null)
+        Toast.makeText(this, "Exclusão realizada com sucesso", Toast.LENGTH_SHORT).show()
     }
     fun btPesquisarOnClick(view: View) {
 
