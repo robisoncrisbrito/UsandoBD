@@ -39,10 +39,10 @@ class MainActivity : AppCompatActivity() {
             MODE_PRIVATE,
             null
         )
-        //CRIAMOS A TABELA
+
         banco.execSQL(
             "CREATE TABLE IF NOT EXISTS cadastro (_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                " nome TEXT, telefone TEXT)"
+                " nome TEXT, telefone TEXT )"
         )
     }
 
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         while( cursor.moveToNext()) {
-            saida.append(etNome.setText(cursor.getString(1) ) + "\n")
+            saida.append(cursor.getString(1) + "\n")
         }
 
         Toast.makeText(this, saida.toString(), Toast.LENGTH_SHORT).show()
