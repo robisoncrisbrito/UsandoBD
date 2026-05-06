@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.widget.Toast
 import br.edu.utfpr.usandobd.entity.Cadastro
 
 class DatabaseHandler(contexto: Context) : SQLiteOpenHelper(
@@ -57,7 +58,34 @@ class DatabaseHandler(contexto: Context) : SQLiteOpenHelper(
         banco.delete( TABLE_NAME, "_id = " + id, null)
     }
 
+    fun pesquisar( id: Int ): Cadastro? {
 
+        val banco = writableDatabase
+
+        val cursor = banco.query(
+            TABLE_NAME,
+            null,
+            "_id = " + id,
+            null,
+            null,
+            null,
+            null
+        )
+
+        if (cursor.moveToNext()) {
+            val cadastro = Cadastro(
+                cursor.getInt(ID),
+                cursor.getString(NOME),
+                cursor.getString(TELEFONE)
+            )
+
+            return cadastro
+        } else {
+            return null
+        }
+
+
+    }
 
     companion object {
         private const val DATABASE_NAME = "banco.db"
