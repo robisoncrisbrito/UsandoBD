@@ -51,6 +51,12 @@ class DatabaseHandler(contexto: Context) : SQLiteOpenHelper(
         )
     }
 
+    fun excluir( id: Int ) {
+        val banco = writableDatabase
+
+        banco.delete( TABLE_NAME, "_id = " + id, null)
+    }
+
 
 
     companion object {
