@@ -83,7 +83,34 @@ class DatabaseHandler(contexto: Context) : SQLiteOpenHelper(
         } else {
             return null
         }
+    }
 
+    fun listar(): MutableList<Cadastro> {
+        val banco = writableDatabase
+
+        val saida = mutableListOf<Cadastro>()
+
+        val cursor = banco.query(
+            TABLE_NAME,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        )
+
+        while( cursor.moveToNext()) {
+            val cadastro = Cadastro(
+                cursor.getInt( ID),
+                cursor.getString( NOME ),
+                cursor.getString( TELEFONE )
+            )
+
+            saida.add( cadastro )
+        }
+
+        return saida
 
     }
 
