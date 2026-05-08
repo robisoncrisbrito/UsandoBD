@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import br.edu.utfpr.usandobd.adapter.ElementoListaAdapter
 import br.edu.utfpr.usandobd.database.DatabaseHandler
 
 class ListarActivity : AppCompatActivity() {
@@ -30,15 +31,7 @@ class ListarActivity : AppCompatActivity() {
 
         val registros = banco.listarCursor()
 
-        val adapter = SimpleCursorAdapter(
-            this,
-            android.R.layout.simple_list_item_1,
-            registros,
-            arrayOf( "nome" ),
-            intArrayOf( android.R.id.text1),
-            0
-        )
-
+        val adapter = ElementoListaAdapter( this, registros )
         lista.adapter = adapter
 
 /*        val registros = listOf( "Colombia", "Chile", "Brasil", "Argentina", "Paraguai", "Uruguai" )
