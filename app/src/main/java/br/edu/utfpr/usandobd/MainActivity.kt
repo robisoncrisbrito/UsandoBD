@@ -1,6 +1,7 @@
 package br.edu.utfpr.usandobd
 
 import android.content.ContentValues
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.view.View
@@ -79,12 +80,18 @@ class MainActivity : AppCompatActivity() {
 
     fun btListarOnClick(view: View) {
 
+
+        val intent = Intent(this, ListarActivity::class.java)
+        startActivity(intent)
+
+
+        /*
         val registros = banco.listar()
 
         for( registro in registros ) {
             Toast.makeText(this, registro.nome, Toast.LENGTH_SHORT).show()
         }
-
+        */
     }
 
 } //fim da mainActivity

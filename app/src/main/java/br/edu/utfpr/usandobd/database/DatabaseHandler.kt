@@ -2,6 +2,7 @@ package br.edu.utfpr.usandobd.database
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import br.edu.utfpr.usandobd.entity.Cadastro
@@ -110,6 +111,24 @@ class DatabaseHandler(contexto: Context) : SQLiteOpenHelper(
         }
 
         return saida
+
+    }
+
+    fun listarCursor(): Cursor {
+
+        val banco = writableDatabase
+
+        val cursor = banco.query(
+            TABLE_NAME,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        )
+
+        return cursor
 
     }
 
