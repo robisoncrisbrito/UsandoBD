@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import br.edu.utfpr.usandobd.R
 import br.edu.utfpr.usandobd.entity.Cadastro
 
@@ -46,12 +48,16 @@ class ElementoListaAdapter(val context: Context, val cursor: Cursor) : BaseAdapt
 
         val tvNomeElementoLista = v.findViewById<TextView>( R.id.tvNomeElementoLista )
         val tvTelefoneElementoLista = v.findViewById<TextView>(R.id.tvTelefoneElementoLista )
-
+        val btEditarElementoLista = v.findViewById<ImageButton>(R.id.btEditarElementoLista)
 
         cursor.moveToPosition( pos )
 
         tvNomeElementoLista.text = cursor.getString( 1 )
         tvTelefoneElementoLista.text = cursor.getString( 2 )
+
+        btEditarElementoLista.setOnClickListener {
+            Toast.makeText( context, "elemento ${pos}", Toast.LENGTH_LONG ).show()
+        }
 
         return v
     }

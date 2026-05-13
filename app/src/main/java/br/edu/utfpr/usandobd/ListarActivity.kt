@@ -33,17 +33,5 @@ class ListarActivity : AppCompatActivity() {
 
         val adapter = ElementoListaAdapter( this, registros )
         lista.adapter = adapter
-
-/*        val registros = listOf( "Colombia", "Chile", "Brasil", "Argentina", "Paraguai", "Uruguai" )
-
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_list_item_1,
-            registros
-        )
-
-        lista.adapter = adapter
-
- */
     }
 }
