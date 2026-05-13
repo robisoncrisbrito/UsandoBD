@@ -133,12 +133,12 @@ class DatabaseHandler(contexto: Context) : SQLiteOpenHelper(
     }
 
     companion object {
-        private const val DATABASE_NAME = "banco.db"
-        private const val DATABASE_VERSION = 1
-        private const val TABLE_NAME = "cadastro"
-        private const val ID = 0
-        private const val NOME = 1
-        private const val TELEFONE = 2
+        const val DATABASE_NAME = "banco.db"
+        const val DATABASE_VERSION = 1
+        const val TABLE_NAME = "cadastro"
+        const val ID = 0
+        const val NOME = 1
+        const val TELEFONE = 2
     }
 
 }

@@ -1,6 +1,7 @@
 package br.edu.utfpr.usandobd.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,12 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import br.edu.utfpr.usandobd.MainActivity
 import br.edu.utfpr.usandobd.R
 import br.edu.utfpr.usandobd.entity.Cadastro
+import br.edu.utfpr.usandobd.database.DatabaseHandler.Companion.ID
+import br.edu.utfpr.usandobd.database.DatabaseHandler.Companion.NOME
+import br.edu.utfpr.usandobd.database.DatabaseHandler.Companion.TELEFONE
 
 class ElementoListaAdapter(val context: Context, val cursor: Cursor) : BaseAdapter() {
 
@@ -56,7 +61,13 @@ class ElementoListaAdapter(val context: Context, val cursor: Cursor) : BaseAdapt
         tvTelefoneElementoLista.text = cursor.getString( 2 )
 
         btEditarElementoLista.setOnClickListener {
-            Toast.makeText( context, "elemento ${pos}", Toast.LENGTH_LONG ).show()
+            cursor.moveToPosition(pos)
+
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra( "cod", cursor.getInt( ID ) )
+            intent.putExtra( "nome", cursor.getString( NOME ) )
+            intent.putExtra( "telefone", cursor.getString( TELEFONE ) )
+            context.startActivity(intent)
         }
 
         return v

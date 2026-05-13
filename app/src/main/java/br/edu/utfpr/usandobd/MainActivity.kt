@@ -37,6 +37,13 @@ class MainActivity : AppCompatActivity() {
         etTelefone = findViewById(R.id.etTelefone)
 
         banco = DatabaseHandler(this)
+
+        if ( intent.getIntExtra( "cod", 0 ) != 0 ) {
+            etCod.setText( intent.getIntExtra( "cod", 0 ).toString() )
+            etNome.setText( intent.getStringExtra("nome") )
+            etTelefone.setText( intent.getStringExtra( "telefone" ) )
+        }
+
     }
 
     fun btIncluirOnClick(view: View) {
