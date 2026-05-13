@@ -5,6 +5,7 @@ import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -19,6 +20,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var etCod: EditText
     private lateinit var etNome: EditText
     private lateinit var etTelefone: EditText
+    private lateinit var btSalvar: Button
+    private lateinit var btExcluir: Button
+    private lateinit var btPesquisar: Button
 
     private lateinit var banco: DatabaseHandler
 
@@ -35,6 +39,9 @@ class MainActivity : AppCompatActivity() {
         etCod = findViewById(R.id.etCod)
         etNome = findViewById(R.id.etNome)
         etTelefone = findViewById(R.id.etTelefone)
+        btSalvar = findViewById(R.id.btSalvar)
+        btExcluir = findViewById(R.id.btExcluir)
+        btPesquisar = findViewById(R.id.btPesquisar)
 
         banco = DatabaseHandler(this)
 
@@ -42,37 +49,43 @@ class MainActivity : AppCompatActivity() {
             etCod.setText( intent.getIntExtra( "cod", 0 ).toString() )
             etNome.setText( intent.getStringExtra("nome") )
             etTelefone.setText( intent.getStringExtra( "telefone" ) )
+        } else {
+            btExcluir.visibility = View.GONE
+            btPesquisar.visibility = View.GONE
         }
 
     }
 
-    fun btIncluirOnClick(view: View) {
-        val cadastro = Cadastro(
-            0,
-            etNome.text.toString(),
-            etTelefone.text.toString()
-        )
-
-        banco.inserir(cadastro)
-
-        Toast.makeText(this, "Inclusão realizada com sucesso", Toast.LENGTH_SHORT).show()
-    }
-
     fun btAlterarOnClick(view: View) {
-        val cadastro = Cadastro(
-            etCod.text.toString().toInt(),
-            etNome.text.toString(),
-            etTelefone.text.toString()
-        )
+        if ( etCod.text.toString().isEmpty() ) {
+            val cadastro = Cadastro(
+                0,
+                etNome.text.toString(),
+                etTelefone.text.toString()
+            )
+            banco.inserir(cadastro)
+        } else {
+            val cadastro = Cadastro(
+                etCod.text.toString().toInt(),
+                etNome.text.toString(),
+                etTelefone.text.toString()
+            )
 
-        banco.alterar(cadastro)
-        Toast.makeText(this, "Alteração realizada com sucesso", Toast.LENGTH_SHORT).show()
+            banco.alterar(cadastro)
+
+        }
+
+        Toast.makeText(this, "Comando realizado com sucesso", Toast.LENGTH_SHORT).show()
+        finish()
 
     }
+
     fun btExcluirOnClick(view: View) {
         banco.excluir(etCod.text.toString().toInt() )
         Toast.makeText(this, "Exclusão realizada com sucesso", Toast.LENGTH_SHORT).show()
+        finish()
     }
+
     fun btPesquisarOnClick(view: View) {
 
         val registro = banco.pesquisar(etCod.text.toString().toInt())
@@ -83,22 +96,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Registro não encontrado", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    fun btListarOnClick(view: View) {
-
-
-        val intent = Intent(this, ListarActivity::class.java)
-        startActivity(intent)
-
-
-        /*
-        val registros = banco.listar()
-
-        for( registro in registros ) {
-            Toast.makeText(this, registro.nome, Toast.LENGTH_SHORT).show()
-        }
-        */
     }
 
 } //fim da mainActivity

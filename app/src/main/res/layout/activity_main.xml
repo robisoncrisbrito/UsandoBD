@@ -43,34 +43,25 @@
         android:inputType="phone" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="btIncluirOnClick"
-        android:text="Incluir" />
-
-    <Button
+        android:id="@+id/btSalvar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="btAlterarOnClick"
-        android:text="Alterar" />
+        android:text="Salvar" />
 
     <Button
+        android:id="@+id/btExcluir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="btExcluirOnClick"
         android:text="Excluir" />
 
     <Button
+        android:id="@+id/btPesquisar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="btPesquisarOnClick"
         android:text="Pesquisar" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="btListarOnClick"
-        android:text="Listar" />
 
 
 </LinearLayout>
