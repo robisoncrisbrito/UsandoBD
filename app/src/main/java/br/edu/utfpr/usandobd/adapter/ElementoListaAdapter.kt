@@ -17,28 +17,26 @@ import br.edu.utfpr.usandobd.database.DatabaseHandler.Companion.ID
 import br.edu.utfpr.usandobd.database.DatabaseHandler.Companion.NOME
 import br.edu.utfpr.usandobd.database.DatabaseHandler.Companion.TELEFONE
 
-class ElementoListaAdapter(val context: Context, val cursor: Cursor) : BaseAdapter() {
+class ElementoListaAdapter(val context: Context, val registro: List<Cadastro>) : BaseAdapter() {
 
     override fun getCount(): Int {
-        return cursor.count
+        return registro.size
     }
 
     override fun getItem(pos: Int): Any? {
-        cursor.moveToPosition( pos )
 
         val cadastro = Cadastro(
-            cursor.getInt(0),
-            cursor.getString(1),
-            cursor.getString(2)
+            registro.get( pos ).id,
+            registro.get( pos ).nome,
+            registro.get( pos ).telefone
         )
 
-        return cursor.getInt(0).toLong()
+        return cadastro
     }
 
     override fun getItemId(pos: Int): Long {
 
-        cursor.moveToPosition( pos )
-        return cursor.getInt(0).toLong()
+        return registro.get(pos).id.toLong()
 
     }
 
@@ -55,18 +53,15 @@ class ElementoListaAdapter(val context: Context, val cursor: Cursor) : BaseAdapt
         val tvTelefoneElementoLista = v.findViewById<TextView>(R.id.tvTelefoneElementoLista )
         val btEditarElementoLista = v.findViewById<ImageButton>(R.id.btEditarElementoLista)
 
-        cursor.moveToPosition( pos )
-
-        tvNomeElementoLista.text = cursor.getString( 1 )
-        tvTelefoneElementoLista.text = cursor.getString( 2 )
+        tvNomeElementoLista.text = registro.get(pos).nome
+        tvTelefoneElementoLista.text = registro.get(pos).telefone
 
         btEditarElementoLista.setOnClickListener {
-            cursor.moveToPosition(pos)
 
             val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra( "cod", cursor.getInt( ID ) )
-            intent.putExtra( "nome", cursor.getString( NOME ) )
-            intent.putExtra( "telefone", cursor.getString( TELEFONE ) )
+            intent.putExtra( "cod", registro.get(pos).id )
+            intent.putExtra( "nome", registro.get(pos).nome )
+            intent.putExtra( "telefone", registro.get(pos).telefone )
             context.startActivity(intent)
         }
 

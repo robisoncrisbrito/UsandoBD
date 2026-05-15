@@ -14,6 +14,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import br.edu.utfpr.usandobd.database.DatabaseHandler
 import br.edu.utfpr.usandobd.entity.Cadastro
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,7 +26,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btExcluir: Button
     private lateinit var btPesquisar: Button
 
-    private lateinit var banco: DatabaseHandler
+    //private lateinit var banco: DatabaseHandler
+    val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         btExcluir = findViewById(R.id.btExcluir)
         btPesquisar = findViewById(R.id.btPesquisar)
 
-        banco = DatabaseHandler(this)
+        //banco = DatabaseHandler(this)
 
         if ( intent.getIntExtra( "cod", 0 ) != 0 ) {
             etCod.setText( intent.getIntExtra( "cod", 0 ).toString() )
@@ -58,44 +61,98 @@ class MainActivity : AppCompatActivity() {
 
     fun btAlterarOnClick(view: View) {
         if ( etCod.text.toString().isEmpty() ) {
-            val cadastro = Cadastro(
+            /*val cadastro = Cadastro(
                 0,
                 etNome.text.toString(),
                 etTelefone.text.toString()
             )
-            banco.inserir(cadastro)
+            banco.inserir(cadastro)*/
+            val cadastro = hashMapOf(
+                "nome" to etNome.text.toString(),
+                "telefone" to etTelefone.text.toString()
+            )
+
+            db.collection( "Cadastro" )
+                .document(etCod.text.toString())
+                .set(cadastro)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Inclusão realizada com sucesso", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Erro na Inclusão", Toast.LENGTH_SHORT).show()
+                }
+
+
         } else {
-            val cadastro = Cadastro(
+            /*val cadastro = Cadastro(
                 etCod.text.toString().toInt(),
                 etNome.text.toString(),
                 etTelefone.text.toString()
             )
 
             banco.alterar(cadastro)
+             */
 
+            val cadastro = hashMapOf(
+                "nome" to etNome.text.toString(),
+                "telefone" to etTelefone.text.toString()
+            )
+
+            db.collection( "Cadastro" )
+                .document(etCod.text.toString())
+                .set(cadastro)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Inclusão realizada com sucesso", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Erro na Inclusão", Toast.LENGTH_SHORT).show()
+                }
         }
-
-        Toast.makeText(this, "Comando realizado com sucesso", Toast.LENGTH_SHORT).show()
-        finish()
-
     }
 
     fun btExcluirOnClick(view: View) {
-        banco.excluir(etCod.text.toString().toInt() )
-        Toast.makeText(this, "Exclusão realizada com sucesso", Toast.LENGTH_SHORT).show()
-        finish()
+        //banco.excluir(etCod.text.toString().toInt() )
+
+        db.collection( "Cadastro" )
+            .document( etCod.text.toString())
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(this, "Exclusão realizada com sucesso", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Erro na Exclusão", Toast.LENGTH_SHORT).show()
+            }
     }
 
     fun btPesquisarOnClick(view: View) {
 
-        val registro = banco.pesquisar(etCod.text.toString().toInt())
+        /*val registro = banco.pesquisar(etCod.text.toString().toInt())
 
         if (registro!=null) {
             etNome.setText(registro.nome)
             etTelefone.setText(registro.telefone)
         } else {
             Toast.makeText(this, "Registro não encontrado", Toast.LENGTH_SHORT).show()
-        }
+        }*/
+
+        db.collection( "Cadastro" )
+            .document( etCod.text.toString() )
+            .get()
+            .addOnSuccessListener { result ->
+                if ( result.data == null ) {
+                    Toast.makeText(this, "Registro não encontrado", Toast.LENGTH_SHORT).show()
+                } else {
+                    etNome.setText( result.data?.get( "nome").toString() )
+                    etTelefone.setText( result.data?.get( "telefone").toString() )
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Erro na Exclusão", Toast.LENGTH_SHORT).show()
+            }
+
     }
 
 } //fim da mainActivity
